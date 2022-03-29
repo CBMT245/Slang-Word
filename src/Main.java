@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -80,23 +81,39 @@ public class Main {
 				
 		}
 	}
-	
+	// xong
 	public static void randomWord() {
 		Random rand = new Random();
 		int num = rand.nextInt(slang.size());
 		int count = 0;
 		for (String key: slang.keySet()) {
-			count++;
+			//count++;
 			if (count == num) {
 			//	System.out.println("Slang word of the day")
 				System.out.println("Slang word of the day: " +key + " meaning " + slang.get(key));
 				break;
 			}
+			count++;
 		}
 	}
-	
-	public static void searchByDef() {
-		
+	//xong
+	public static void searchByDef(String def) {
+		ArrayList<String> temptList = new ArrayList<String>();
+		for (Entry<String, String> pair: slang.entrySet()) {
+			String temptKey = pair.getKey();
+			String temptDef = pair.getValue();
+			if (temptDef.contains(def)) temptList.add(temptKey);
+		}
+		if (temptList.size() == 0) {
+			System.out.println("Not found the word in dictionary!");
+		}
+		else {
+			System.out.println("List of slang words have meaning " + def);
+			for (int  i = 0; i < temptList.size(); i++) {
+				System.out.println(temptList.get(i));
+			}
+		}
+		temptList.clear();
 	}
 	
 	public static void quizKey() {
@@ -116,8 +133,98 @@ public class Main {
 				ok1 = ok2;
 			}
 		}
+		int count = 0;
+		String[] keyWord = {"", "", "", "",""};
+		for (String key: slang.keySet()) {
+			for (int j = 0;  j < 4; j++) {
+				if (count == num[j])
+					keyWord[j] = key;
+			}
+			count++;
+			
+		}
 		
+		System.out.println("Which is the meaning of this word: "+ keyWord[0]);
+		boolean option [] = {true, true, true, true};
+		boolean loop = true;
+		int tt = 1;
+		int ans = 0;
+		while (loop) {
+			int op = rand.nextInt(4);
+			if (option[op]) {
+				option[op] = false;
+				String tempt = keyWord[op];
+				System.out.print(tt +") " +slang.get(tempt));
+				if (op == 0) ans = tt;
+				tt++;
+			}
+			if (tt == 5) loop = false;
+		}
+		System.out.print("Chose 1, 2, 3, 4 to answer!");
+		String trueAns = String.valueOf(ans);
+		Scanner scanner = new Scanner(System.in);
+		String data = scanner.nextLine();
+		if (trueAns == data) {
+			System.out.print("Your answer is correct!");
+		}
+		else 
+			System.out.print("Your answer is wrong!");
 	
+	}
+	
+	public static void quizDef() {
+		Random rand = new Random();
+		int[] num = {0, 0, 0, 0};
+		for (int i = 0; i < 4; i++) {
+			boolean ok1 = true;
+			while (ok1) {
+				num[i] = rand.nextInt(slang.size());
+				boolean ok2 = false;
+				for (int j = i - 1; j >= 0; j--) {
+					if (num[i] == num[j]) { 
+						ok2 = true;
+						break;
+					}
+				}
+				ok1 = ok2;
+			}
+		}
+		int count = 0;
+		String[] keyWord = {"", "", "", "",""};
+		for (String key: slang.keySet()) {
+			for (int j = 0;  j < 4; j++) {
+				if (count == num[j])
+					keyWord[j] = key;
+			}
+			count++;
+			
+		}
+		
+		System.out.println("Choose the correct slang Word mean: " + slang.get(keyWord[0]));
+		boolean option [] = {true, true, true, true};
+		boolean loop = true;
+		int tt = 1;
+		int ans = 0;
+		while (loop) {
+			int op = rand.nextInt(4);
+			if (option[op]) {
+				option[op] = false;
+				String tempt = keyWord[op];
+				System.out.print(tt +") " + tempt);
+				if (op == 0) ans = tt;
+				tt++;
+			}
+			if (tt == 5) loop = false;
+		}
+		System.out.print("Chose 1, 2, 3, 4 to answer!");
+		String trueAns = String.valueOf(ans);
+		Scanner scanner = new Scanner(System.in);
+		String data = scanner.nextLine();
+		if (trueAns == data) {
+			System.out.print("Your answer is correct!");
+		}
+		else 
+			System.out.print("Your answer is wrong!");
 	}
 	
 	
