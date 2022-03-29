@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -21,8 +22,14 @@ public class Main {
 	//	searchWord(data);
 		System.out.println(list.size());
 		System.out.println(slang.size());
-		list.clear();
-		resetSlangWord();
+		for (String S: slang.keySet()) {
+			System.out.println(S);
+		}
+	//	resetSlangWord();
+		
+		
+		
+		
 		list.clear();
 		slang.clear();
 		history.clear();
@@ -41,8 +48,8 @@ public class Main {
 			System.out.println(key + " meaning " + slang.get(key));
 		}
 	}
-	
-	public static void searchWord(String key) {
+	//Xong
+	public static void searchByKey(String key) {
 		boolean check = slang.containsKey(key);
 		if (!check) 
 			System.out.println("Not found the word in dictionary!");
@@ -51,7 +58,11 @@ public class Main {
 	}
 	//Xong
 	public static void addWord(String key, String def) {
-		slang.put(key, def);
+		boolean check = slang.containsKey(key);
+		if (!check) 
+			System.out.println("Not found the word in dictionary!");
+		else
+			slang.put(key, def);
 	}
 	//Xong
 	public static void deleteWord(String key) {
@@ -71,7 +82,42 @@ public class Main {
 	}
 	
 	public static void randomWord() {
+		Random rand = new Random();
+		int num = rand.nextInt(slang.size());
+		int count = 0;
+		for (String key: slang.keySet()) {
+			count++;
+			if (count == num) {
+			//	System.out.println("Slang word of the day")
+				System.out.println("Slang word of the day: " +key + " meaning " + slang.get(key));
+				break;
+			}
+		}
+	}
+	
+	public static void searchByDef() {
 		
+	}
+	
+	public static void quizKey() {
+		Random rand = new Random();
+		int[] num = {0, 0, 0, 0};
+		for (int i = 0; i < 4; i++) {
+			boolean ok1 = true;
+			while (ok1) {
+				num[i] = rand.nextInt(slang.size());
+				boolean ok2 = false;
+				for (int j = i - 1; j >= 0; j--) {
+					if (num[i] == num[j]) { 
+						ok2 = true;
+						break;
+					}
+				}
+				ok1 = ok2;
+			}
+		}
+		
+	
 	}
 	
 	
